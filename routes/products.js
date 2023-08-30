@@ -11,6 +11,18 @@ router.get(`/`,async (req,res)=>
     res.send(productList);
 })
 
+// // read data by id
+
+// router.get('/:id', async (req,res)=>{
+//     const product =await Product.findById(req.params.id);
+
+//     if(!product)
+// {
+//     res.status(500).json({message: 'the category with the given id was read'})
+// }
+// res.status(200).send(product);
+// })
+
 
 //POST
 router.post(`/`, (req, res)=>{
@@ -29,6 +41,40 @@ router.post(`/`, (req, res)=>{
             success:false
         })
     })
+    
+     //update
+     router.put('/:id', async (req,res)=> {
+        const product = await Product.findByIdAndUpdate(
+            req.params.id,
+            {
+             id: req.body.id,
+             name: req.body.name,
+             count: req.body.count
+            }).then(product => {
+                if(product){
+                    return res.status(200).json({success: true, message:'the product is update'})
+                }
+                else{
+                    return res.status(404).json({success: false, message: "product is not update"})
+                }
+            }).catch(err=>{
+                return res.status(400).json({success:false, error: err})
+            })
+
+    
+router.delete('/:id', (req,res)=>{
+   Product.findByIdAndRemove(req.params.id).then(product=>{
+        if(product){
+            return res.status(200).json({success: true, message:'the product is deleted'})
+        }
+        else{
+            return res.status(404).json({success: false, message: "product is not removed"})
+        }
+    }).catch(err=>{
+        return res.status(400).json({success:false, error: err})
+    })
+})
    
+})
 })
 module.exports=router;
