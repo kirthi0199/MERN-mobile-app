@@ -2,15 +2,26 @@ const express=require('express');
 const index = express();
 const morgan =require('morgan');
 const mongoose = require('mongoose');
+//const authJwt =require('./helpers/jwt');
+//const bodyparser =require('body-parser');
 
 require('dotenv/config');
 const api =process.env.API_URL;
 const cors=require ('cors');
 index.use(cors());
 index.options('*', cors());
+
 //middleware library
+//index.use(bodyparser.json());
  index.use(express.json());
  index.use(morgan('tiny'));
+ //index.use(authJwt());
+//  index.use((err, req, res, next =>{
+//    if(err){
+//       res.status(500).json({message: "error in the server"})
+//    }
+
+//  }))
 
  //routers
 
